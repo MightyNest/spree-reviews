@@ -12,6 +12,24 @@ RSpec.describe Spree::ReviewsHelper, type: :helper do
     end
   end
 
+  context 'mk_half_stars' do
+    specify do
+      stars = mk_half_stars(2.5)
+
+      expect(stars.scan(/fa-star\s/).length).to be(2)
+      expect(stars.scan(/fa-star-half-empty/).length).to be(1)
+      expect(stars.scan(/fa-star-empty/).length).to be(2)
+    end
+
+    specify do
+      stars = mk_half_stars(3)
+
+      expect(stars.scan(/fa-star\s/).length).to be(3)
+      expect(stars.scan(/fa-star-half-empty/).length).to be(0)
+      expect(stars.scan(/fa-star-empty/).length).to be(2)
+    end
+  end
+
   context 'txt_stars' do
     specify do
       expect(txt_stars(2, true)).to eq '2 out of 5'
