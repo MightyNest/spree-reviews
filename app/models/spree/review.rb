@@ -6,7 +6,7 @@ class Spree::Review < ActiveRecord::Base
   after_save :recalculate_product_rating, if: :approved?
   after_destroy :recalculate_product_rating
 
-  validates :name, :review, presence: true
+  validates :name, presence: true
   validates :rating, numericality: {
     only_integer: true,
     greater_than_or_equal_to: 1,
@@ -23,6 +23,7 @@ class Spree::Review < ActiveRecord::Base
   scope :approved, -> { where(approved: true) }
   scope :not_approved, -> { where(approved: false) }
   scope :default_approval_filter, -> { Spree::Reviews::Config[:include_unapproved_reviews] ? all : approved }
+  scope :with_comment, -> { where("review <> ''") }
 
   def feedback_stars
     return 0 if feedback_reviews.size <= 0
