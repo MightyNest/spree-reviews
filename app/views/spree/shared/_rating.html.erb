@@ -1,4 +1,4 @@
-<% stars = product.stars %>
+<% stars = product.stars(allow_halves: true) %>
 <% reviews_count = product.reviews_count %>
 <div class="ratings">
   <p><%= Spree.t(:average_customer_rating) %>:</p>
