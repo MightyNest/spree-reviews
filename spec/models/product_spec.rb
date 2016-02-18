@@ -20,6 +20,15 @@ RSpec.describe Spree::Product, type: :model do
         expect(product.stars).to be(0)
       }.not_to raise_error
     end
+
+    it "allows half stars" do
+      allow(product).to receive(:avg_rating).and_return(3.7)
+      expect(product.stars(allow_halves: true)).to eq 3.5
+
+      allow(product).to receive(:avg_rating).and_return(3.2)
+      expect(product.stars(allow_halves: true)).to eq 3.0
+
+    end
   end
 
   context '.recalculate_rating' do

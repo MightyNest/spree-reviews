@@ -2,8 +2,8 @@
 Spree::Product.class_eval do
   has_many :reviews
 
-  def stars
-    avg_rating.try(:round) || 0
+  def stars(opts = { allow_halves: false })
+    opts[:allow_halves] ? ((avg_rating || 0.0) * 2).floor.to_f / 2 : avg_rating.try(:round) || 0
   end
 
   def recalculate_rating
