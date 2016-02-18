@@ -23,11 +23,19 @@ RSpec.describe Spree::ReviewsController, type: :controller do
     end
 
     context 'for a valid product' do
-      it 'lists approved reviews' do
-        approved_reviews = [
+      let!(:approved_reviews) {
+        [
           create(:review, :approved, product: product),
           create(:review, :approved, product: product)
         ]
+      }
+      it 'lists approved reviews' do
+        spree_get :index, product_id: product.slug
+        expect(assigns[:approved_reviews]).to match_array(approved_reviews)
+      end
+
+      it 'excludes reviews without comments' do
+        create(:review, :approved, product: product, review: nil)
         spree_get :index, product_id: product.slug
         expect(assigns[:approved_reviews]).to match_array(approved_reviews)
       end

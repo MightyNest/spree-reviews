@@ -9,10 +9,6 @@ RSpec.describe Spree::Review, type: :model do
       expect(build(:review, user: nil)).to be_valid
     end
 
-    it 'does not validate with a nil review' do
-      expect(build(:review, review: nil)).not_to be_valid
-    end
-
     context 'rating' do
       it 'does not validate when no rating is specified' do
         expect(build(:review, rating: nil)).not_to be_valid
@@ -44,8 +40,8 @@ RSpec.describe Spree::Review, type: :model do
     end
 
     context 'review body' do
-      it 'is not be valid without a body' do
-        expect(build(:review, review: nil)).not_to be_valid
+      it "allows a nil review text" do
+        expect(build(:review, review: nil)).to be_valid
       end
     end
   end
@@ -141,6 +137,18 @@ RSpec.describe Spree::Review, type: :model do
         expect(Spree::Review.default_approval_filter.to_a).to match_array expected
       end
     end
+    context "with_comment" do
+      let!(:comment_review) { create(:review) }
+      let!(:blank_comment_review) { create(:review, review: "") }
+      let!(:nil_comment_review) { create(:review, review: nil) }
+
+      it "excludes reviews without a comment" do
+        expected = [
+          comment_review
+        ]
+        expect(Spree::Review.with_comment.to_a).to match_array expected
+      end
+    end
   end
 
   context '.recalculate_product_rating' do
@@ -182,4 +190,6 @@ RSpec.describe Spree::Review, type: :model do
       expect(review.feedback_stars).to be(2)
     end
   end
+
+
 end
