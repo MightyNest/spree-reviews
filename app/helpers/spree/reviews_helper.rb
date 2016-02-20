@@ -10,7 +10,7 @@ module Spree::ReviewsHelper
       when :half
         "fa fa-star-half-empty"
       else
-        "fa fa-star-empty"
+        "fa fa-star inactive"
       end
     content_tag(:i, "", class: css_class)
   end
