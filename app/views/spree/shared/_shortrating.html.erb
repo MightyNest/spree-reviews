@@ -1,10 +1,10 @@
 <% stars = product.stars(allow_halves: true) %>
 <% reviews_count = product.reviews_count %>
 <div class="short-ratings">
-  <div style="float:left;" title="<%= txt_stars(stars) %>">
+  <div class="stars" title="<%= txt_stars(stars) %>">
     <%= render 'spree/reviews/stars', stars: stars %>
   </div>
-  <div style="float:right;">
+  <div class="rating-count">
     <%= Spree::Review.model_name.human(count: reviews_count) %>
   </div>
 </div>
