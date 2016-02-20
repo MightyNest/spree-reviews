@@ -16,17 +16,17 @@ RSpec.describe Spree::ReviewsHelper, type: :helper do
     specify do
       stars = mk_half_stars(2.5)
 
-      expect(stars.scan(/fa-star\s/).length).to be(2)
+      expect(stars.scan(/fa-star\sactive/).length).to be(2)
       expect(stars.scan(/fa-star-half-empty/).length).to be(1)
-      expect(stars.scan(/fa-star-empty/).length).to be(2)
+      expect(stars.scan(/fa-star\sinactive/).length).to be(2)
     end
 
     specify do
       stars = mk_half_stars(3)
 
-      expect(stars.scan(/fa-star\s/).length).to be(3)
+      expect(stars.scan(/fa-star\sactive/).length).to be(3)
       expect(stars.scan(/fa-star-half-empty/).length).to be(0)
-      expect(stars.scan(/fa-star-empty/).length).to be(2)
+      expect(stars.scan(/fa-star\sinactive/).length).to be(2)
     end
   end
 
