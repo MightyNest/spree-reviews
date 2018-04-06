@@ -18,6 +18,8 @@ class Spree::Admin::ReviewsController < Spree::Admin::ResourceController
   def edit
     return if @review.product
     flash[:error] = Spree.t(:error_no_product)
+    @edit_feedback_rating_stars = false
+
     redirect_to admin_reviews_path
   end
 

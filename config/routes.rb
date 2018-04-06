@@ -4,7 +4,7 @@ Spree::Core::Engine.add_routes do
       member do
         get :approve
       end
-      resources :feedback_reviews, only: [:index, :destroy]
+      resources :feedback_reviews, only: [:index, :create, :update, :destroy]
     end
     resource :review_settings, only: [:edit, :update]
   end

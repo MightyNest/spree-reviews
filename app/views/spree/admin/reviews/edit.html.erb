@@ -1,6 +1,8 @@
 <% content_for :page_title do %>
+	<%= link_to(Spree.t(:reviews), admin_reviews_path) %> /
 	<%= Spree.t(:editing_review_for_html, link: link_to(@review.product.name, product_path(@review.product))) %>
 <% end %>
+<% @feedback_review = @review.feedback_reviews.first || @review.feedback_reviews.build %>
 
 <%= form_for [:admin, @review] do |f| %>
 	<div class="row">
@@ -14,7 +16,45 @@
 			<blockquote>
 				<%= simple_format(@review.review) %>
 			</blockquote>
+			<% if @feedback_review && !@feedback_review.comment.blank? %>
+				<h4>Customer Service Feedback:</h4>
+				<p style='font-style: italic;'><%= @feedback_review.comment %></p>
+			<% end %>
 		</div>
 	</div>
 	<%= render 'spree/admin/shared/edit_resource_links' %>
 <% end %>
+
+
+<br />
+<div class="row">
+	<div class="col-md-6">
+		<fieldset>
+			<legend>Admin Review Feedback</legend>
+			<%= form_for [:admin, @review, @feedback_review] do |f| %>
+				<% unless @feedback_review.errors.empty? %>
+				  <div class="error"><%= @feedback_review.errors[:rating] %></div>
+				<% end %>
+
+				<div class="form-group">
+					<%= f.label :comment, 'Feedback Comment' %>
+					<%= f.text_area :comment, class: 'form-control' %>
+				</div>
+				<% if @edit_feedback_rating_stars %>
+				<div class="form-group">
+					<%= Spree.t(:was_this_review_helpful) %>
+					<% for i in 1..Spree::Reviews::Config.stars %>
+					  <%= radio_button_tag 'feedback_review[rating]', Spree.t(:star, count: i), (i == @feedback_review.rating) %>
+					<% end %>
+				</div>
+				<% else %>
+					<input type="hidden" name="feedback_review[rating]" value="5" />
+				<% end %>
+
+				<button class="feedback-review btn btn-default">
+				  <%= Spree.t(:submit) %>
+				</button>
+			<% end %>
+		</fieldset>
+	</div>
+</div>
