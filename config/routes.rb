@@ -3,6 +3,8 @@ Spree::Core::Engine.add_routes do
     resources :reviews, only: [:index, :destroy, :edit, :update] do
       member do
         get :approve
+        get :edit_product
+        patch :update_product
       end
       resources :feedback_reviews, only: [:index, :create, :update, :destroy]
     end

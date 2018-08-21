@@ -1,0 +1,38 @@
+<% content_for :page_title do %>
+	<%= link_to(Spree.t(:reviews), admin_reviews_path) %> /
+	Change Product
+<% end %>
+
+<%= render partial: "spree/admin/variants/autocomplete", formats: :js %>
+
+
+<%= form_for [:admin, @review] , url: url_for(action: :update_product) do |f| %>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="panel panel-default">
+				<div class="panel-heading">
+			    <h3 class='panel-title'>Current Product</h3>
+			  </div>
+				<div class='panel-body'>
+					<p class="lead"><%= @review.product.name %></p>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="panel panel-default">
+			  <div class="panel-heading">
+			    <h3 class='panel-title'>New Product</h3>
+			  </div>
+			  <div class="panel-body">
+			    <div data-hook="add_product_name">
+			      <%= label_tag :variant_id, Spree.t(:name_or_sku) %>
+			      <%= hidden_field_tag :variant_id, "", class: "variant_autocomplete fullwidth-input" %>
+			    </div>
+
+			  </div>
+			</div>
+		</div>
+	</div>
+	<%= render 'spree/admin/shared/edit_resource_links' %>
+<% end %>
+

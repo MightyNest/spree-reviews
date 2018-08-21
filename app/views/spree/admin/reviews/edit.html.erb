@@ -1,7 +1,11 @@
 <% content_for :page_title do %>
 	<%= link_to(Spree.t(:reviews), admin_reviews_path) %> /
 	<%= Spree.t(:editing_review_for_html, link: link_to(@review.product.name, product_path(@review.product))) %>
+	<%= link_to(url_for(action: :edit_product, id: @review.id), class: 'btn btn-xs btn-primary') do %>
+		Change Product &raquo;
+	<% end %>
 <% end %>
+
 <% @feedback_review = @review.feedback_reviews.first || @review.feedback_reviews.build %>
 
 <%= form_for [:admin, @review] do |f| %>

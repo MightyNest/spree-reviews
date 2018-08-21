@@ -23,6 +23,21 @@ class Spree::Admin::ReviewsController < Spree::Admin::ResourceController
     redirect_to admin_reviews_path
   end
 
+  def edit_product
+  end
+
+  def update_product
+    variant = Spree::Variant.find(params[:variant_id])
+    @review.product = variant.product
+    if @review.save
+      flash[:success] = "Updated product on review to #{variant.product.name}"
+    else
+      flash[:error] = "Could not update review. Errors: #{@review.errors.full_messages.join(' ')}"
+    end
+
+    redirect_to edit_admin_review_path(@review)
+  end
+
   private
 
   def collection
