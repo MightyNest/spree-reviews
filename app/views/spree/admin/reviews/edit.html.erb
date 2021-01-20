@@ -27,6 +27,8 @@
 		</div>
 	</div>
 	<%= render 'spree/admin/shared/edit_resource_links' %>
+	<br />
+	<%= link_to_with_icon 'save', Spree.t(:approve), approve_admin_review_url(@review), no_text: false, class: 'approve btn btn-default' unless @review.approved %>
 <% end %>
 
 
